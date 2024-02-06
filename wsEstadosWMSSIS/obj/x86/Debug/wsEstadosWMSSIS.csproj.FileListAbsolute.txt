@@ -1,0 +1,10 @@
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\x86\Debug\ServicioEstadosWmsSis.exe.config
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\x86\Debug\ServicioEstadosWmsSis.exe
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\x86\Debug\ServicioEstadosWmsSis.pdb
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\x86\Debug\wsEstadosWMSSIS.ServicioEstadosWmsSis.resources
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\x86\Debug\wsEstadosWMSSIS.csproj.GenerateResource.Cache
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\x86\Debug\ServicioEstadosWmsSis.exe
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\x86\Debug\ServicioEstadosWmsSis.pdb
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\x86\Debug\wsEstadosWMSSIS.csprojResolveAssemblyReference.cache
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\x86\Debug\Newtonsoft.Json.dll
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\x86\Debug\Newtonsoft.Json.xml

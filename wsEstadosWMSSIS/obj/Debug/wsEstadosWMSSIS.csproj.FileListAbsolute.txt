@@ -1,0 +1,8 @@
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\Debug\wsEstadosWMSSIS.exe.config
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\Debug\wsEstadosWMSSIS.exe
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\Debug\wsEstadosWMSSIS.pdb
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\Debug\wsEstadosWMSSIS.csprojResolveAssemblyReference.cache
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\Debug\wsEstadosWMSSIS.ServicioEstadosWmsSis.resources
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\Debug\wsEstadosWMSSIS.csproj.GenerateResource.Cache
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\Debug\wsEstadosWMSSIS.exe
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\Debug\wsEstadosWMSSIS.pdb

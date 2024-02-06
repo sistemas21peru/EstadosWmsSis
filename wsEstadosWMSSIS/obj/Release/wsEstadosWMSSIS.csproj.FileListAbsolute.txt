@@ -1,0 +1,7 @@
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\Release\wsEstadosWMSSIS.exe.config
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\Release\wsEstadosWMSSIS.exe
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\bin\Release\wsEstadosWMSSIS.pdb
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\Release\wsEstadosWMSSIS.ServicioEstadosWmsSis.resources
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\Release\wsEstadosWMSSIS.csproj.GenerateResource.Cache
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\Release\wsEstadosWMSSIS.exe
+D:\Servicio Estado Wms\wsEstadosWMSSIS\wsEstadosWMSSIS\obj\Release\wsEstadosWMSSIS.pdb
