@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wsEstadosWMSSIS", "wsEstadosWMSSIS\wsEstadosWMSSIS.csproj", "{D1DD8FC4-A4CE-4C03-B085-461F15A1E18D}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupServicioEstadosWmsSis", "SetupServicioEstadosWmsSis\SetupServicioEstadosWmsSis.vdproj", "{D08A4EB1-68A1-4FE6-BAF7-3D9D2D7416F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D1DD8FC4-A4CE-4C03-B085-461F15A1E18D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D1DD8FC4-A4CE-4C03-B085-461F15A1E18D}.Release|x86.ActiveCfg = Release|x86
 		{D1DD8FC4-A4CE-4C03-B085-461F15A1E18D}.Release|x86.Build.0 = Release|x86
+		{D08A4EB1-68A1-4FE6-BAF7-3D9D2D7416F0}.Debug|Any CPU.ActiveCfg = Debug
+		{D08A4EB1-68A1-4FE6-BAF7-3D9D2D7416F0}.Debug|x86.ActiveCfg = Debug
+		{D08A4EB1-68A1-4FE6-BAF7-3D9D2D7416F0}.Release|Any CPU.ActiveCfg = Release
+		{D08A4EB1-68A1-4FE6-BAF7-3D9D2D7416F0}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
