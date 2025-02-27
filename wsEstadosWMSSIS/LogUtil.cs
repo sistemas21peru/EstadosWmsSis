@@ -18,9 +18,9 @@ namespace ServicioEstadosWmsSis
             try
             {
            
-              //  string filtxt = ConfigurationManager.AppSettings["pathExeFox"].ToString().Trim() +  interfaz.Trim() + ".TXT";
+                string filtxt = ConfigurationManager.AppSettings["pathExeFox"].ToString().Trim() +  interfaz.Trim() + ".TXT";
 
-                string filtxt = @"D:\" + interfaz.Trim() + ".TXT";
+              //  string filtxt = @"d:\" + interfaz.Trim() + ".TXT";
 
                 using (StreamWriter writer = new StreamWriter(filtxt, true))
                 {

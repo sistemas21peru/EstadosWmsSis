@@ -14,6 +14,8 @@ using System.Data.OleDb;
 using ServicioEstadosWmsSis;
 using System.IO;
 using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Net;
 
 namespace wsEstadosWMSSIS.Business
 {
@@ -32,7 +34,7 @@ namespace wsEstadosWMSSIS.Business
             DateTime fechaActual = DateTime.Now;
             DateTime fechaInicial = fechaActual.AddDays(diasConsulta * -1);
 
-            List<WmsData> listaWms = ConsultarApiEstadosWms(diasConsulta, fechaInicial, fechaActual);
+            List<WmsData> listaWms = ConsultarApiEstadosWms(diasConsulta, fechaInicial, fechaActual).Result;
             if (listaWms == null)
             {
                 Environment.Exit(0);
@@ -59,7 +61,7 @@ namespace wsEstadosWMSSIS.Business
 
                 //OBTENIENDO DATOS DESDE WMS
                 LogUtil.Graba_Log("Log_Estados_Sis", "OBTENIENDO DATOS DESDE WMS", false, "");
-                List<WmsData> listaWms = ConsultarApiEstadosWms(diasConsulta, fechaInicial, fechaActual);
+                List<WmsData> listaWms = ConsultarApiEstadosWms(diasConsulta, fechaInicial, fechaActual).Result;
                 if (listaWms == null || listaWms.Count == 0)
                 {
                     LogUtil.Graba_Log("Log_Estados_Sis", "NO SE ENCONTRARON DATOS DESDE WMS", false, "");
@@ -124,7 +126,7 @@ namespace wsEstadosWMSSIS.Business
             }
         }
 
-        public List<WmsData> ConsultarApiEstadosWms(int diasConsulta, DateTime fechaInicial, DateTime fechaFinal)
+        public async Task<List<WmsData>> ConsultarApiEstadosWms(int diasConsulta, DateTime fechaInicial, DateTime fechaFinal)
         {
             try
             {
@@ -134,16 +136,28 @@ namespace wsEstadosWMSSIS.Business
                 endDayApi = endDayApi.AddHours(23.9999);
                 List<WmsData> listaWms = new List<WmsData>();
 
+
+
                 using (HttpClient client = new HttpClient())
                 {
+
                     client.DefaultRequestHeaders.Add("Authorization", "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes(ConfigurationManager.AppSettings["Api_User"].ToString() + ":" + ConfigurationManager.AppSettings["Api_Pass"].ToString())));
+                
                     using (StringContent jsonContent = new StringContent(""))
                     {
+
+                        ServicePointManager.Expect100Continue = true;
+                        ServicePointManager.DefaultConnectionLimit = 9999;
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls |
+                        SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 |
+                        SecurityProtocolType.Ssl3;
+
+
+
                         jsonContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                         string url = ConfigurationManager.AppSettings["Api_Url"].ToString() + "order_hdr?status_id=99&mod_ts__gte=" + startDayApi.ToString("yyyy-MM-ddTHH:mm:ss") + "&mod_ts__lte=" + endDayApi.ToString("yyyy-MM-ddTHH:mm:ss");
-                        var request = client.GetAsync(url);
-                        dynamic response = request.Result.Content.ReadAsStringAsync().Result;
+                        var request = await client.GetAsync(url);
+                        var response = await request.Content.ReadAsStringAsync();
                         JObject root = JObject.Parse(response);
                         var listaJson = JsonConvert.SerializeObject(root["results"]);
                         List<WmsData> listaWmsPart = JsonConvert.DeserializeObject<List<WmsData>>(listaJson);
@@ -152,11 +166,11 @@ namespace wsEstadosWMSSIS.Business
                         string nextPage = root["next_page"].ToString().Trim();
                         nextPage = nextPage.Replace("%3A", ":");
 
-                        NextPage:
+                    NextPage:
                         if (nextPage != "")
                         {
-                            request = client.GetAsync(nextPage);
-                            response = request.Result.Content.ReadAsStringAsync().Result;
+                            request = await client.GetAsync(nextPage);
+                            response = await request.Content.ReadAsStringAsync();
                             root = JObject.Parse(response);
                             listaJson = JsonConvert.SerializeObject(root["results"]);
                             listaWmsPart = JsonConvert.DeserializeObject<List<WmsData>>(listaJson);
@@ -169,9 +183,9 @@ namespace wsEstadosWMSSIS.Business
                     }
                 }
             }
-            catch (Exception Ex)
+            catch (HttpRequestException Ex)
             {
-                LogUtil.Graba_Log("Log_Estados_Sis", Ex.Message.ToString(), false, "");
+                LogUtil.Graba_Log("Log_Estados_Sis", Ex.InnerException?.Message, false, "");
                 return null;
             }
         }
@@ -214,6 +228,7 @@ namespace wsEstadosWMSSIS.Business
                     if (cn.State == 0) cn.Open();
                     using (SqlCommand cmd = new SqlCommand())
                     {
+#pragma warning disable CS0168 // La variable está declarada pero nunca se usa
                         try
                         {
                             cmd.Connection = cn;
@@ -236,6 +251,7 @@ namespace wsEstadosWMSSIS.Business
                         {
                             throw;
                         }
+#pragma warning restore CS0168 // La variable está declarada pero nunca se usa
                     }
                 }
             }
@@ -275,21 +291,29 @@ namespace wsEstadosWMSSIS.Business
 
                 foreach (WmsData data in listaWmsRetail)
                 {
-                    ordenes = ordenes + ",'" + data.order_nbr + "'";
-                    count += 1;
-                    if (count == 100)
+
+                    listaValidada.Add(new WmsDataFinal()
                     {
-                        listaValidada.AddRange(ValidarAnuladosEnSisRetail(ordenes.Substring(1)));
-                        ordenes = "";
-                        count = 0;
-                    }
+                        Sucursal = ConfigurationManager.AppSettings["Sucursal_Sis"].ToString(),
+                        order_nbr = data.order_nbr
+
+                    });
+
+                    //ordenes = ordenes + ",'" + data.order_nbr + "'";
+                    //count += 1;
+                    //if (count == 100)
+                    //{
+                    //    listaValidada.AddRange(ValidarAnuladosEnSisRetail(ordenes.Substring(1)));
+                    //    ordenes = "";
+                    //    count = 0;
+                    //}
                 }
-                if (ordenes != "")
-                {
-                    listaValidada.AddRange(ValidarAnuladosEnSisRetail(ordenes.Substring(1)));
-                    ordenes = "";
-                    count = 0;
-                }
+                //if (ordenes != "")
+                //{
+                //    listaValidada.AddRange(ValidarAnuladosEnSisRetail(ordenes.Substring(1)));
+                //    ordenes = "";
+                //    count = 0;
+                //}
                 //===========================================================================
 
                 //ORDENES NO RETAIL
@@ -298,19 +322,25 @@ namespace wsEstadosWMSSIS.Business
 
                 foreach (WmsData data in listaWmsNoRetail)
                 {
-                    ordenes = ordenes + ",'" + data.order_nbr + "'";
-                    count += 1;
-                    if (count == 100)
+                    listaValidada.Add(new WmsDataFinal()
                     {
-                        listaValidada.AddRange(ValidarAnuladosEnSisNoRetail(ordenes.Substring(1)));
-                        ordenes = "";
-                        count = 0;
-                    }
+                        Sucursal = ConfigurationManager.AppSettings["Sucursal_Sis"].ToString(),
+                        order_nbr = data.order_nbr
+
+                    });
+                    //ordenes = ordenes + ",'" + data.order_nbr + "'";
+                    //count += 1;
+                    //if (count == 100)
+                    //{
+                    //    listaValidada.AddRange(ValidarAnuladosEnSisNoRetail(ordenes.Substring(1)));
+                    //    ordenes = "";
+                    //    count = 0;
+                    //}
                 }
-                if (ordenes != "")
-                {
-                    listaValidada.AddRange(ValidarAnuladosEnSisNoRetail(ordenes.Substring(1)));
-                }
+                //if (ordenes != "")
+                //{
+                //    listaValidada.AddRange(ValidarAnuladosEnSisNoRetail(ordenes.Substring(1)));
+                //}
 
                 //============================================================================
 
@@ -467,6 +497,7 @@ namespace wsEstadosWMSSIS.Business
                     if (cn.State == 0) cn.Open();
                     using (SqlCommand cmd = new SqlCommand())
                     {
+#pragma warning disable CS0168 // La variable está declarada pero nunca se usa
                         try
                         {
                             cmd.Connection = cn;
@@ -486,6 +517,7 @@ namespace wsEstadosWMSSIS.Business
                         {
                             throw;
                         }
+#pragma warning restore CS0168 // La variable está declarada pero nunca se usa
                     }
                 }
             }

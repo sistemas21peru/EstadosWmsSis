@@ -102,12 +102,12 @@ namespace wsEstadosWMSSIS
         }
         protected override void OnStart(string[] args)
         {
-            BindListaDiasEnvioCorreo();
-            EnviaCorreoEstados();
+            //BindListaDiasEnvioCorreo();
+            //EnviaCorreoEstados();
 
-            //API_Wms api_Wms = new API_Wms();
-            //api_Wms.ProcesarEstadosWmsSis();
-            // tmProcesaEstado.Start();
+            API_Wms api_Wms = new API_Wms();
+            api_Wms.ProcesarEstadosWmsSis();
+            tmProcesaEstado.Start();
 
         }
 
